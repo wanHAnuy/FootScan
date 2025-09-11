@@ -21,6 +21,7 @@
 - 📊 **可视化分析** - 生成详细的测量报告和专业图表
 - 🌍 **国际标准** - 支持中国、欧盟、美国、英国、日本、韩国等多国尺码
 - 👟 **智能推荐** - 基于脚型特征提供个性化鞋码建议
+- 🔥 **压力分析** - 基于MUN104数据集的足底压力分布分析与可视化
 
 ## 📁 项目结构
 
@@ -30,11 +31,19 @@ task2_footsize/
 ├── 📸 foot_with_a4_real.jpg   # 真实场景测试图
 ├── 🐍 process_foot.py         # 核心图像处理模块
 ├── 📊 foot_report.py          # 智能鞋码推荐系统
+├── 🔥 press_fig.py           # 足部压力分析模块 (新增)
 ├── 📓 app.ipynb              # Jupyter交互式演示
 ├── 🌐 app.html               # 网页版演示
 ├── 📋 footreport.pdf         # 生成的测量报告
 ├── 🤖 sam_vit_h_4b8939.pth   # SAM分割模型权重
+├── 📊 MUN104L.csv            # MUN104项目左脚压力数据
+├── 📊 MUN104R.csv            # MUN104项目右脚压力数据
+├── 🔧 MUN104L_cleaned.csv    # 处理后的左脚压力数据
+├── 🔧 MUN104R_cleaned.csv    # 处理后的右脚压力数据
+├── 💾 modified_mask.npy      # 预处理的足部掩码
 └── 📂 result/                # 输出结果目录
+    ├── scanline_alignment.png # 压力数据对齐可视化
+    └── ...                   # 其他分析结果
 ```
 
 ## 🔬 图像处理流程展示
@@ -58,6 +67,21 @@ task2_footsize/
 </div>
 
 *每5mm间隔的足部宽度测量曲线，包含关键尺寸标注和轮廓分析*
+
+### 🔥 足底压力分析系统
+
+#### 📊 MUN104数据集集成
+<div align="center">
+<img src="result/scanline_alignment.png" width="600" alt="压力数据对齐分析">
+</div>
+
+*基于MUN104项目的104人足底压力数据，通过水平扫描线方法实现压力分布的精确对齐与可视化*
+
+**核心特性：**
+- **数据来源**: MUN104项目收集104人足底压力数据并计算均值
+- **高质量转换**: 将CSV格式压力数据转换为高质量可视化热图
+- **精确对齐**: 采用水平扫描线算法将压力分布与用户足部掩码精确匹配
+- **形状适配**: 自动调整压力数据形状以完美贴合个人足部轮廓
 
 #### 👟 智能鞋码推荐系统
 <div align="center">
@@ -378,3 +402,21 @@ pip install jupyter notebook  # 交互式演示
 *为3D打印个性化鞋履提供毫米级精度数据支持*
 
 </div>
+
+## 📚 References
+
+### MUN104 Foot Pressure Dataset
+This project integrates the **MUN104** dataset containing foot pressure distribution data from 104 participants. The dataset provides baseline pressure patterns for personalized foot analysis through statistical mean calculations.
+
+### Scientific Foundation
+The relationship between foot shape and pressure distribution is established in:
+
+**Hatala, K. G., Dingwall, H. L., Wunderlich, R. E., & Richmond, B. G.** "The relationship between plantar pressure and footprint shape." This research demonstrates the strong correlation between foot morphology and pressure patterns, providing scientific validation for our shape-to-pressure analysis approach.
+
+**Technical Implementation:**
+- Horizontal scan line alignment algorithm (`press_fig.py`)
+- 8-point scanning method (8% and 90% height positions)
+- CSV-to-heatmap conversion with shape adaptation
+- Individual foot mask integration
+
+---
